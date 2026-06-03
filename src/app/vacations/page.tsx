@@ -204,7 +204,7 @@ return ( <div>
 
 <input
   type="date"
-  value={endtDate}
+  value={endDate}
   min={new Date().toISOString().split('T')[0]}
   onChange={(e) => setEndDate(e.target.value)}
   className="input"
