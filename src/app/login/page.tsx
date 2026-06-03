@@ -28,7 +28,7 @@ export default function LoginPage() {
 
       <div className="auth-card">
 
-        <div className="auth-title">Radar C</div>
+        <div className="auth-title">Radar F</div>
         <div className="auth-subtitle">
           Acesse sua conta
         </div>
