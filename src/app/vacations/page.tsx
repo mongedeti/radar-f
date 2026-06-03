@@ -38,109 +38,106 @@ return normalized
 }
 
 const handleCreate = async () => {
-try {
-setLoading(true)
-setError(null)
+  try {
+    setLoading(true)
+    setError(null)
 
-  const cleanName = validateName(employeeName)
+    const cleanName = validateName(employeeName)
 
-  if (!startDate) {
-    throw new Error(
-      'Data inicial é obrigatória'
-    )
-  }
+    if (!startDate) {
+      throw new Error(
+        'Data inicial é obrigatória'
+      )
+    }
 
-  if (!endDate) {
-    throw new Error(
-      'Data final é obrigatória'
-    )
-  }
+    if (!endDate) {
+      throw new Error(
+        'Data final é obrigatória'
+      )
+    }
 
-  if (
-    new Date(endDate) <
-    new Date(startDate)
-  ) {
-    throw new Error(
-      'A data final não pode ser menor que a inicial'
-    )
-  }
+    const start = new Date(startDate)
+    const end = new Date(endDate)
 
-  const today = new Date()
-  today.setHours(0, 0, 0, 0)
+    if (end < start) {
+      throw new Error(
+        'A data final não pode ser menor que a inicial'
+      )
+    }
 
-  const start = new Date(startDate)
+    const today = new Date()
+    today.setHours(0, 0, 0, 0)
 
-  if (start < today) {
-    throw new Error(
-      'A data de início não pode ser anterior à data de hoje'
-    )
-  }
+    if (start < today) {
+      throw new Error(
+        'A data de início não pode ser anterior à data de hoje'
+      )
+    }
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
+    const diffTime =
+      end.getTime() - start.getTime()
 
-  if (!user) {
-    router.push('/login')
-    return
-  }
+    const days =
+      Math.floor(
+        diffTime / (1000 * 60 * 60 * 24)
+      ) + 1
 
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('tenant_id')
-    .eq('id', user.id)
-    .single()
+    const {
+      data: { user },
+    } = await supabase.auth.getUser()
 
-  if (!profile) {
-    setError('Perfil não encontrado')
-    setLoading(false)
-    return
-  }
+    if (!user) {
+      router.push('/login')
+      return
+    }
 
-  const start = new Date(startDate)
-  const end = new Date(endDate)
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('tenant_id')
+      .eq('id', user.id)
+      .single()
 
-  const diffTime =
-  end.getTime() - start.getTime()
+    if (!profile) {
+      setError('Perfil não encontrado')
+      setLoading(false)
+      return
+    }
 
-  const days =
-  Math.floor(diffTime / (1000 * 60 * 60 * 24)) + 1
+    const { error } = await supabase
+      .from('radarf_vacations')
+      .insert([
+        {
+          full_name: cleanName,
+          start_date: startDate,
+          end_date: endDate,
+          days,
+          status: 'scheduled',
+          notes,
+          tenant_id: profile.tenant_id,
+        },
+      ])
 
-  const { error } = await supabase
-    .from('radarf_vacations')
-    .insert([
-      {
-        full_name: cleanName,
-        start_date: startDate,
-        end_date: endDate,
-        days,
-        status: 'scheduled',
-        notes,
-        tenant_id: profile.tenant_id,
-      },
-    ])
+    if (error) {
+      console.error(error)
 
-  if (error) {
-    console.error(error)
+      setError(
+        'Erro ao salvar: ' +
+          error.message
+      )
 
+      setLoading(false)
+      return
+    }
+
+    router.push('/dashboard')
+  } catch (err: any) {
     setError(
-      `Erro ao salvar: ${error.message}`
+      err.message ||
+        'Erro ao cadastrar férias'
     )
 
     setLoading(false)
-    return
   }
-
-  router.push('/dashboard')
-} catch (err: any) {
-  setError(
-    err.message ||
-      'Erro ao cadastrar férias'
-  )
-
-  setLoading(false)
-}
-
 }
 
 return ( <div>
