@@ -5,7 +5,6 @@ import Link from 'next/link'
 export default function Home() {
 return ( <div className="landing-container">
 
-```
   {/* HEADER */}
   <header className="landing-header">
     <div className="logo">Radar F</div>
@@ -143,7 +142,5 @@ return ( <div className="landing-container">
   </section>
 
 </div>
-```
-
 )
 }
