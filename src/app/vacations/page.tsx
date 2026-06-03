@@ -24,7 +24,6 @@ const normalized = value
 .trim()
 .replace(/\s+/g, ' ')
 
-```
 if (!normalized) {
   throw new Error('Nome do colaborador é obrigatório')
 }
@@ -36,8 +35,6 @@ if (normalized.length < 3 || normalized.length > 80) {
 }
 
 return normalized
-```
-
 }
 
 const handleCreate = async () => {
@@ -45,7 +42,6 @@ try {
 setLoading(true)
 setError(null)
 
-```
   const cleanName = validateName(employeeName)
 
   if (!startDate) {
@@ -122,13 +118,11 @@ setError(null)
 
   setLoading(false)
 }
-```
 
 }
 
 return ( <div>
 
-```
   <div style={{ marginBottom: 20 }}>
     <button
       className="btn btn-secondary"
@@ -232,7 +226,6 @@ return ( <div>
   </div>
 
 </div>
-```
 
 )
 }
