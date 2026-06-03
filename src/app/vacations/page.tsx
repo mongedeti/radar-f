@@ -27,9 +27,9 @@ if (!normalized) {
   throw new Error('Nome do colaborador é obrigatório')
 }
 
-if (normalized.length < 3 || normalized.length > 80) {
+if (normalized.length < 3 || normalized.length > 50) {
   throw new Error(
-    'Nome deve ter entre 3 e 80 caracteres'
+    'Nome deve ter entre 3 e 50 caracteres'
   )
 }
 
