@@ -86,6 +86,15 @@ setError(null)
     return
   }
 
+  const start = new Date(startDate)
+  const end = new Date(endDate)
+
+  const diffTime =
+  end.getTime() - start.getTime()
+
+  const days =
+  Math.floor(diffTime / (1000 * 60 * 60 * 24)) + 1
+
   const { error } = await supabase
     .from('radarf_vacations')
     .insert([
@@ -93,6 +102,8 @@ setError(null)
         full_name: cleanName,
         start_date: startDate,
         end_date: endDate,
+        days,
+        status: 'scheduled',
         notes,
         tenant_id: profile.tenant_id,
       },
