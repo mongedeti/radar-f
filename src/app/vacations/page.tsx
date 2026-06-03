@@ -65,6 +65,17 @@ setError(null)
     )
   }
 
+  const today = new Date()
+  today.setHours(0, 0, 0, 0)
+
+  const start = new Date(startDate)
+
+  if (start < today) {
+    throw new Error(
+      'A data de início não pode ser anterior à data de hoje'
+    )
+  }
+
   const {
     data: { user },
   } = await supabase.auth.getUser()
@@ -177,16 +188,13 @@ return ( <div>
       Data de início
     </label>
 
-    <input
-      type="date"
-      value={startDate}
-      onChange={(e) =>
-        setStartDate(
-          e.target.value
-        )
-      }
-      className="input"
-    />
+<input
+  type="date"
+  value={startDate}
+  min={new Date().toISOString().split('T')[0]}
+  onChange={(e) => setStartDate(e.target.value)}
+  className="input"
+/>
 
     <label
       style={{
@@ -197,16 +205,13 @@ return ( <div>
       Data de término
     </label>
 
-    <input
-      type="date"
-      value={endDate}
-      onChange={(e) =>
-        setEndDate(
-          e.target.value
-        )
-      }
-      className="input"
-    />
+<input
+  type="date"
+  value={endtDate}
+  min={new Date().toISOString().split('T')[0]}
+  onChange={(e) => setEndDate(e.target.value)}
+  className="input"
+/>
 
     <textarea
       placeholder="Observações (opcional)"
