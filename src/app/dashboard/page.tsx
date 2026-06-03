@@ -71,11 +71,17 @@ data: { user },
     )
   }
 
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('trial_started_at')
-    .eq('id', user.id)
-    .single()
+const { data: profile } = await supabase
+  .from('profiles')
+  .select('trial_started_at, is_trial')
+  .eq('id', user.id)
+  .single()
+
+// Usuário pagante ou administrador
+if (profile?.is_trial === false) {
+  setCheckingTrial(false)
+} else {
+  // Usuário em período de teste
 
   if (!profile?.trial_started_at) {
     setCheckingTrial(false)
@@ -97,7 +103,8 @@ data: { user },
     setCheckingTrial(false)
     return
   }
-
+}
+  
   const { data } = await supabase
     .from('radarf_vacations')
     .select('*')
