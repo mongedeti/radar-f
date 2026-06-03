@@ -10,7 +10,6 @@ const router = useRouter()
 const [employeeName, setEmployeeName] = useState('')
 const [startDate, setStartDate] = useState('')
 const [endDate, setEndDate] = useState('')
-const [notes, setNotes] = useState('')
 
 const [loading, setLoading] = useState(false)
 const [error, setError] = useState<string | null>(null)
@@ -112,7 +111,6 @@ const handleCreate = async () => {
           end_date: endDate,
           days,
           status: 'scheduled',
-          notes,
           tenant_id: profile.tenant_id,
         },
       ])
@@ -209,16 +207,6 @@ return ( <div>
   onChange={(e) => setEndDate(e.target.value)}
   className="input"
 />
-
-    <textarea
-      placeholder="Observações (opcional)"
-      value={notes}
-      onChange={(e) =>
-        setNotes(e.target.value)
-      }
-      className="input"
-      rows={4}
-    />
 
     {error && (
       <p className="error">
