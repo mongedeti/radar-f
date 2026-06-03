@@ -90,7 +90,7 @@ setError(null)
     .from('radarf_vacations')
     .insert([
       {
-        employee_name: cleanName,
+        full_name: cleanName,
         start_date: startDate,
         end_date: endDate,
         notes,
