@@ -319,7 +319,10 @@ return ( <div className="container">
       >
 
         <div>
-          <strong>
+          <strong
+            className="employee-name"
+            title={vacation.full_name}
+          >
             {vacation.full_name}
           </strong>
 
