@@ -5,7 +5,7 @@ import { supabase } from '@/lib/supabaseClient'
 
 type Vacation = {
 id: string
-employee_name: string
+full_name: string
 start_date: string
 end_date: string
 status: string
@@ -320,7 +320,7 @@ return ( <div className="container">
 
         <div>
           <strong>
-            {vacation.employee_name}
+            {vacation.full_name}
           </strong>
 
           <div
