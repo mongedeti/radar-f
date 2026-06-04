@@ -13,11 +13,10 @@ created_at: string
 }
 
 function formatDate(dateString: string) {
-return new Date(dateString).toLocaleDateString('pt-BR', {
-day: '2-digit',
-month: '2-digit',
-year: 'numeric',
-})
+  const [year, month, day] =
+    dateString.split('-')
+
+  return `${day}/${month}/${year}`
 }
 
 function daysUntil(dateString: string) {
