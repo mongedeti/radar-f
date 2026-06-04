@@ -158,10 +158,13 @@ html, body {
   display: block;
 }
 
-/* Apenas celular */
+.employee-name {
+  display: block;
+}
+
 @media (max-width: 768px) {
   .employee-name {
-    max-width: 180px;
+    width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
