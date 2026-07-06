@@ -162,7 +162,21 @@ Carregando... </div>
 
 const today = new Date()
 
-const upcoming = vacations.filter(v => {
+const activeVacations = vacations.filter(v => {
+  const end = new Date(v.end_date)
+  end.setHours(23, 59, 59, 999)
+
+  return end >= today
+})
+
+const completedVacations = vacations.filter(v => {
+  const end = new Date(v.end_date)
+  end.setHours(23, 59, 59, 999)
+
+  return end < today
+})
+
+const upcoming = activeVacations.filter(v => {
 const start = new Date(v.start_date)
 const diff =
 (start.getTime() - today.getTime()) /
@@ -173,7 +187,7 @@ return diff >= 0 && diff <= 30
 
 }).length
 
-const active = vacations.filter(v => {
+const active = activeVacations.filter(v => {
 const start = new Date(v.start_date)
 const end = new Date(v.end_date)
 
@@ -184,7 +198,7 @@ return (
 
 }).length
 
-const endingSoon = vacations.filter(v => {
+const endingSoon = activeVacations.filter(v => {
 const end = new Date(v.end_date)
 
 const diff =
@@ -298,11 +312,11 @@ return ( <div className="container">
 
     <div className="metric-card metric-risk">
       <div className="metric-title">
-        Total Agendadas
+        Concluídas
       </div>
-
+    
       <div className="metric-value">
-        {vacations.length}
+        {completedVacations.length}
       </div>
     </div>
 
@@ -310,7 +324,7 @@ return ( <div className="container">
 
   <ul className="client-list">
 
-    {vacations.map(vacation => (
+    {activeVacations.map(vacation => (
 
       <li
         key={vacation.id}
