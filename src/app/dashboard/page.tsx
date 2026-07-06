@@ -31,6 +31,22 @@ diff / (1000 * 60 * 60 * 24)
 )
 }
 
+function getVacationBadge(startDate: string) {
+  const today = new Date()
+  const start = new Date(startDate)
+
+  const diff = Math.ceil(
+    (start.getTime() - today.getTime()) /
+      (1000 * 60 * 60 * 24)
+  )
+
+  if (diff >= 0) {
+    return `INICIA EM ${diff} DIAS`
+  }
+
+  return `INICIADA HÁ ${Math.abs(diff)} DIAS`
+}
+
 export default function Dashboard() {
 const [vacations, setVacations] = useState<Vacation[]>([])
 const [loading, setLoading] = useState(true)
@@ -361,11 +377,7 @@ return ( <div className="container">
           }}
         >
           <span className="badge badge-warning">
-            INICIA EM{' '}
-            {daysUntil(
-              vacation.start_date
-            )}{' '}
-            DIAS
+            {getVacationBadge(vacation.start_date)}
           </span>
         </div>
 
